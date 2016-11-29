@@ -1,2 +1,2 @@
 # michaeltellinger.dev
-repo for micheltellinger.com development
+repo for development
