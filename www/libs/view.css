@@ -1,0 +1,140 @@
+table
+{
+   border-collapse:collapse;
+}
+
+tr
+{ padding:0; margin:0; }
+
+td
+{ padding:0; margin:0; }
+
+
+
+#MainView
+{
+   width:100%;
+   height:100%;
+}
+
+#BanrZone
+{
+   width:100%;
+   height:9rem;
+}
+
+#MenuZone
+{
+   width:100%;
+   height:3rem;
+   vertical-align:top;
+}
+
+#MenuSpan
+{
+   width:100%;
+   height:3rem;
+}
+
+
+
+#NaviMenuCell
+{
+   width:70%;
+   height:3rem;
+}
+
+
+
+#LocaMenuCell
+{
+   width:30%;
+   height:3rem;
+}
+
+
+.DropMenu
+{
+   width:100%;
+   height:100%;
+}
+
+.DropMenuListCell
+{
+   width:auto;
+   height:100%;
+}
+
+.DropMenuList
+{
+   width:100%;
+   height:3rem;
+   overflow:hidden;
+}
+
+.DropMenuItem
+{
+   display:inline-block;
+   width:10%;
+   height:3rem;
+   font-size:1.5rem;
+   padding:0.8rem;
+   cursor:pointer;
+}
+.DropMenuItem:hover
+{
+   color:#FFFFFF;
+   text-decoration:underline;
+}
+
+.DropMenuButnCell
+{
+   width:3rem;
+   height:3rem;
+   display:none;
+}
+
+.DropMenuButn
+{
+   width:3rem;
+   height:3rem;
+   font-size:2rem;
+   text-align:left;
+   padding-left:0.5rem;
+   padding-top:0.8rem;
+   cursor:pointer;
+}
+.DropMenuButn:hover
+{
+   color:#FFFFFF;
+}
+
+#ViewZone
+{
+   width:100%;
+   height:auto;
+}
+
+
+@media screen and (max-width:1000px)
+{
+   #NaviMenuCell
+   {
+      width:50%;
+   }
+
+   #LocaMenuCell
+   {
+      width:50%;
+   }
+
+   .DropMenuItem
+   {
+      width:100%;
+   }
+
+   .DropMenuButnCell
+   {
+      display:table-cell;
+   }
+}

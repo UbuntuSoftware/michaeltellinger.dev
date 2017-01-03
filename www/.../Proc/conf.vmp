@@ -1,0 +1,78 @@
+::::::::::::::::::::::::
+:: main configuration ::
+::::::::::::::::::::::::
+
+
+.: info :.
+-- --------------------------------------------------------------------------------------------------------
+1. The settings here are stock-standard; alter the config below (values only) as you see fit.
+2. Please do not remove any entry names in this file; they are mandatory; only edit values.
+3. You can re-arrange anything in here as you wish, just keep the object names & structures in tact.
+4. All comments & white-space in here is for clarity and example; which is not required at all.
+5. Remove all the comments and extra white-space for LIVE mode - including all this (useless) text.
+-- --------------------------------------------------------------------------------------------------------
+
+
+
+   siteMode: DEVL    .: DEVL, TEST, LIVE
+
+
+
+   userView:
+   {
+      template: `/cfg/anon.vmp`
+      autoload: [`/fnt/icon.fnt`,`/libs/view.css`,`/libs/init.js`]
+   }
+
+
+
+   redirect:
+   {
+      fromTo:
+      {
+         `/`            : `/docs/home.htm.v`
+         `/favicon.ico` : `/pics/favicon.png`
+         `*.php`        : 403
+      }
+
+      toFrom:
+      {
+         `/.pub`: [`/cfg/`,`/fnt/`,`/img/`,`/lib/`,`/snd/`,`/man/`]
+      }
+   }
+
+
+
+   encoding: `UTF-8` .: internal & output encoding
+   devlAddr:         .: host ip matches for DEVL mode
+   [`10.*`,`192.168.*`,`127.0.0.1`]
+
+
+
+   crawlers:
+   {
+      match: `bot|crawl|fetch|find|grab|scan|search|site|slurp|spider`
+
+      crawl:
+      [
+      //   `/man/*`
+      ]
+
+      links:
+      {
+      //   `manual`:`/man/home.htm.v`
+      }
+   }
+
+
+
+   preStart:   .: list of modules to initiate before processing requests
+   [
+   // SpamDope
+   ]
+
+
+   mimeCast:   .: mime-type handlers with `import`, `export`, `decode` & `encode` methods
+   {
+      // Vamp: [vmp,v]
+   }

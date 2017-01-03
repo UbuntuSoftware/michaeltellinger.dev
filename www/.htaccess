@@ -1,0 +1,40 @@
+
+# main :: conf : primary config
+# ---------------------------------------------------------
+   Options All          -Indexes
+   ServerSignature      Off
+   DefaultLanguage      en-US
+   AddDefaultCharset    UTF-8
+# ---------------------------------------------------------
+
+
+
+# dbug :: fail : error handling - for broken php
+# ---------------------------------------------------------
+   ErrorDocument 403 /index.html
+   ErrorDocument 404 /index.html
+   ErrorDocument 500 /index.html
+# ---------------------------------------------------------
+
+
+
+# conf :: php : ini
+# ---------------------------------------------------------
+   php_value default_charset     UTF-8
+   php_value short_open_tag      On
+   php_value display_errors      On
+   php_value expose_php          Off
+# ---------------------------------------------------------
+
+
+
+# cond :: path : relay requests
+# ---------------------------------------------------------
+   <IfModule mod_rewrite.c>
+      RewriteEngine On
+      RewriteBase /
+
+      RewriteCond %{REQUEST_URI} !.php$
+      RewriteRule (.*) .php
+   </IfModule>
+# ---------------------------------------------------------

@@ -1,0 +1,2 @@
+packVrsn:0.1.0
+needsPHP:5.5.14,7.0.13

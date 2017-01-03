@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<!--
+This file is used for debugging (graceful fail) both server & client-side issues & initiating the GUI basis.
+The debugging here has many purposes; this is why everything that is needed is in this file.
+The default server config should not serve this file to web-crawlers, so SEO is not expected in here.
+Edit the contents of this file carefully & remove this comment block.
+-->
+<html>
+   <head>
+      <!-- <title>AUTO</title> -->
+
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+      <style>
+      /* tags :: base : view-span, base-size, base-tint
+      /* ----------------------------------------------------------------------------------------------- */
+         html,body
+         {
+            position:relative;
+            height:100%;
+            background:#2e3133;
+            font-size:1vw; /*  `rem` unit basis  */
+            font-family: Arial, Helvetica, sans-serif;
+            line-height:1.3vw;
+            color:#AAA;
+            overflow:hidden;
+            padding:0;
+            margin:0;
+         }
+      /* ----------------------------------------------------------------------------------------------- */
+
+
+
+
+      /* cond :: view : limit minimum base-size
+      /* ----------------------------------------------------------------------------------------------- */
+         @media screen and (max-width:1100px)
+         {
+            html,body
+            {
+               font-size:11px !important;
+               line-height:14px;
+            }
+         }
+      /* ----------------------------------------------------------------------------------------------- */
+
+
+
+
+      /* tags :: base : standardize
+      /* ----------------------------------------------------------------------------------------------- */
+         div
+         {
+            display:block;
+            position:relative;
+            text-align:left;
+            vertical-align:top;
+            box-sizing:border-box;
+            padding:0;
+            margin:0;
+         }
+
+         ul
+         {
+            margin:0;
+            padding:0;
+            margin-left:1.5rem;
+            margin-top:0.5rem;
+         }
+
+         p
+         {
+            margin:0;
+            margin-top:1rem;
+         }
+
+         a
+         {
+            font-weight:bold;
+            cursor:pointer;
+            text-decoration:none;
+            color:#CCC;
+         }
+
+         a:hover
+         {
+            color:#EEE;
+            text-decoration:underline;
+         }
+      /* ----------------------------------------------------------------------------------------------- */
+
+
+
+
+      /* clan :: busy : progress
+      /* ----------------------------------------------------------------------------------------------- */
+         .busy
+         {
+            display:block;
+            position:absolute;
+            top:50%;
+            left:50%;
+            transform:translate(-50%,-50%);
+            max-width:100px;
+            max-height:100px;
+            min-width:36px;
+            min-height:36px;
+         }
+      /* ----------------------------------------------------------------------------------------------- */
+
+
+
+
+      /* clan :: dbug : test
+      /* ----------------------------------------------------------------------------------------------- */
+         .dbug
+         {
+            background:#BADA55 !important;
+            border:1px solid #A00 !important;
+            min-width:12px !important;
+            min-height:12px !important;
+            visibility:visible !important;
+            opacity:1 !important;
+            padding:0 !important;
+            margin:0 !important;
+            font-size:11px !important;
+            line-height:14px !important;
+            color:#A00 !important;
+         }
+      /* ----------------------------------------------------------------------------------------------- */
+
+
+
+
+      /* clan :: dbugPane : dbug
+      /* ----------------------------------------------------------------------------------------------- */
+         .dbugPane
+         {
+            display:block;
+            width:100%;
+            height:100%;
+            background:#2e3133;
+            color:#AAA;
+            text-align:center;
+         }
+      /* ----------------------------------------------------------------------------------------------- */
+
+
+
+
+      /* clan :: dbugProc : test
+      /* ----------------------------------------------------------------------------------------------- */
+         .dbugProc
+         {
+            display:block;
+            position:absolute;
+            z-index:999999;
+            width:100%;
+            height:25%;
+            overflow:auto;
+            bottom:0px;
+            background:hsla(0,0%,5%,0.85);
+            padding-left:1rem;
+            font-size:0.8rem;
+            font-family:Liberation Mono,Consolas,Monaco,Lucida Console,DejaVu Sans Mono,monospace;
+            line-height:2rem;
+         }
+      /* ----------------------------------------------------------------------------------------------- */
+
+
+
+
+      /* clan :: dbug : fail
+      /* ----------------------------------------------------------------------------------------------- */
+         .FailNode
+         {
+            display:inline-block;
+            background:#3e1113;
+            color:#EEE;
+            border:0.17rem solid #5b1f21;
+            box-shadow:0rem 0.1rem 1rem rgba(0,0,0,0.3);
+            border-radius:0.3rem;
+            margin:1rem;
+            margin-top:4rem;
+            max-width:50rem;width:auto !important;width:50rem;
+            min-width:25rem;
+         }
+
+         .FailNode h1
+         {
+            display:block;
+            margin:0;
+            font-size:1.2rem;
+            line-height:1.8rem;
+            font-weight:bold;
+            padding: 0.4rem;
+            padding-left: 0.8rem;
+            border-bottom:1px solid #5e1113;
+         }
+
+         .FailNode div
+         {
+            background:#4c0911;
+            padding:1.2rem;
+            border-radius:0.2rem;
+         }
+
+         .FailNode div h2
+         {
+            margin:0;
+            margin-bottom:1rem;
+            font-size:1rem;
+            font-weight:bold;
+         }
+
+         .FailNode div ul
+         { white-space:nowrap; }
+
+         .FailNode div a
+         { color:#EEE; }
+
+         .FailNode div p
+         { margin-bottom:1rem; }
+      /* ----------------------------------------------------------------------------------------------- */
+
+
+
+
+      /* clan :: pane : overlay & span entire view - applies to different element types
+      /* ----------------------------------------------------------------------------------------------- */
+         .pane
+         {
+            display:block;
+            position:absolute;
+            width:100%;
+            height:100%;
+            background:none;
+            border:none;
+            overflow:hidden;
+            z-index:999999;
+            top:0px;
+            left:0px;
+            margin:0;
+            padding:0;
+         }
+      /* ----------------------------------------------------------------------------------------------- */
+
+
+
+      /* clan :: (togl) : show/hide
+      /* ----------------------------------------------------------------------------------------------- */
+         .hide
+         { display:none !important; }
+
+         .show
+         { display:inline-block !important; }
+      /* ----------------------------------------------------------------------------------------------- */
+
+
+
+
+      /* clan :: (grid) : alignment
+      /* ----------------------------------------------------------------------------------------------- */
+         .text-left
+         { text-align:left; }
+
+         .text-midl
+         { text-align:center; }
+
+         .text-rigt
+         { text-align:right; }
+
+         .horz-midl
+         {
+            position:absolute;
+            left:50%;
+            transform:translate(-50%, 0%);
+         }
+
+         .vert-midl
+         {
+            position:absolute;
+            top:50%;
+            transform:translate(0%, -50%);
+         }
+      /* ----------------------------------------------------------------------------------------------- */
+
+
+
+
+      /* clan :: (misc) : useful classes
+      /* ----------------------------------------------------------------------------------------------- */
+         .span-full
+         {
+            position:absolute;
+            width:100%;
+            height:100%;
+         }
+      /* ----------------------------------------------------------------------------------------------- */
+      </style>
+   </head>
+
+   <body>
+<!--- BUSY --->
+      <svg class="busy" viewBox="0 0 100 100" width="100%" height="100%" onchange="
+         var self,robj,pgrp,item,rota,upto,name;
+
+         self = this;
+         robj = self.getElementsByClassName('rota')[0];
+         pgrp = self.getElementsByClassName('pgrp')[0];
+         item = pgrp.getElementsByTagName('path');
+         rota = 0;
+
+         self.data = 0;
+         self.jobs = {};
+
+         Object.defineProperty
+         (
+            self,'value',
+            {
+               set:function(unit)
+               {
+                  unit = (isNaN(unit) ? 0 : ((unit > 100) ? 100 : Math.floor(unit)));
+                  upto = Math.floor(unit / 10);
+                  self.data = unit;
+                  for (var i in item)
+                  {
+                     if (!item.hasOwnProperty(i))
+                     { continue; }
+
+                     name = (item[i].getAttribute('name') *1);
+                     item[i].style.opacity = ((name <= upto) ? 1 : 0.5);
+                  }
+               },
+
+               get:function()
+               { return self.data; }
+            }
+         );
+
+
+         self.tick = setInterval(function()
+         {
+            rota = ((rota > 360) ? 1 : (rota + 1));
+         	robj.setAttribute('transform', 'rotate('+rota+', 50, 50)');
+            pgrp.setAttribute('transform', 'rotate('+((self.value < 1) ? (0 - rota) : 0)+', 50, 50)');
+
+            if ((self.data < 100) || self.wait)
+            { return; }
+
+            self.wait = true;
+
+            if ((typeof self.onWait) == 'function')
+            {
+               self.onWait();
+               self.onWait = null;
+            }
+
+            var subt = setInterval(function()
+            {
+               clearInterval(subt);
+
+               if (self.data == 100)
+               { self.done(); }
+               else
+               { self.wait = false; }
+            },250);
+         }, 12);
+
+
+         self.done = function()
+         {
+            var tout,opac,fade,tick;
+            tout = 250;
+            opac = 1;
+            fade = ((opac / tout) * 5);
+            tick = setInterval(function()
+            {
+               opac = (opac - fade);
+
+               if (opac < 0)
+               {
+                  clearInterval(tick);
+                  clearInterval(self.tick);
+
+                  if (self.parentNode.className.indexOf('busyPane') > -1)
+                  { self.parentNode.parentNode.removeChild(self.parentNode); }
+                  else
+                  { self.parentNode.removeChild(self); }
+
+                  if ((typeof self.onDone) == 'function')
+                  { self.onDone(Object.keys(self.jobs)); }
+
+                  return;
+               }
+
+               self.style.opacity = opac;
+            },5);
+         };
+
+
+         self.tint = function(colr)
+         {
+            var line = getElementsByClassName('line');
+            var fill = getElementsByClassName('fill');
+
+            for (var i in line)
+            {
+               if (line.hasOwnProperty(i))
+               { line[i].style.stroke = colr; }
+            }
+
+            for (var i in fill)
+            {
+               if (fill.hasOwnProperty(i))
+               {
+                  fill[i].style.fill = colr;
+                  fill[i].style.fillOpacity = 0.5;
+               }
+            }
+         };
+
+
+         self.update = function(name,valu)
+         {
+            self.jobs[name] = valu;
+
+            var ldd = 0;
+            var ttl = (Object.keys(self.jobs)).length;
+
+            for (var i in self.jobs)
+            {
+               if (!self.jobs.hasOwnProperty(i))
+               { continue; }
+
+               ldd = (ldd + self.jobs[i]);
+            }
+
+            self.value = (ldd / ttl);
+         };
+
+
+         self.insert = function(name)
+         {
+            self.update(name,0);
+         };
+      ">
+         <style>
+            path.line
+            {
+               fill:none;
+               stroke:#AAA;
+               stroke-width:0.8;
+               stroke-linecap:round;
+               stroke-linejoin:round;
+               stroke-miterlimit:4;
+               stroke-opacity:1;
+               stroke-dasharray:none;
+            }
+
+            path.fill
+            {
+               stroke-width:0.8;
+               fill:#AAA;
+               fill-opacity:0.5;
+               opacity:0.5;
+            }
+         </style>
+         <path class="rota line" d="m 56.688,95.108 2.381,-8.894 5.198,-1.764 4.922,-2.428 7.971,4.607 5.082,-4.384 4.383,-5.081 -4.607,-7.973 2.427,-4.921 1.765,-5.198 8.894,-2.382 0.496,-6.689 -0.496,-6.69 -8.894,-2.381 -1.765,-5.199 -2.427,-4.923 4.607,-7.972 -4.383,-5.08 -5.082,-4.382 -7.971,4.607 -4.922,-2.428 -5.198,-1.765 -2.377,-8.8946 -6.693,-0.4935 -6.69,0.4935 -2.381,8.8946 -5.198,1.764 -4.923,2.428 -7.971,-4.606 -5.08,4.382 -4.382,5.08 4.606,7.972 -2.427,4.923 -1.765,5.199 -8.8944,2.381 -0.4936,6.69 0.4936,6.689 8.8944,2.382 1.765,5.198 2.427,4.921 -4.607,7.973 4.383,5.081 5.08,4.384 7.971,-4.607 4.923,2.428 5.198,1.764 2.381,8.894 6.69,0.492 z"></path>
+         <path class="line" d="m 66.13,49.976 c 0,8.895 -7.211,16.105 -16.106,16.105 -8.894,0 -16.105,-7.21 -16.105,-16.105 0,-8.895 7.211,-16.106 16.105,-16.106 8.895,0 16.106,7.211 16.106,16.106 z m 11.519,0 c 0,15.257 -12.368,27.625 -27.625,27.625 -15.257,0 -27.624,-12.368 -27.624,-27.625 0,-15.258 12.367,-27.627 27.624,-27.627 15.257,0 27.625,12.369 27.625,27.627 z"></path>
+         <g class="pgrp">
+            <path name="1" class="line fill" d="m 46.275,26.382 2.999,3.799 c 3.117,-0.139 5.996,0.696 8.879,1.758 l -0.995,-4.744 c -3.575,-1.178 -7.19,-1.104 -10.883,-0.813 z"></path>
+            <path name="2" class="line fill" d="m 60.805,28.694 0.213,4.844 c 2.603,1.727 4.442,4.103 6.154,6.665 l 1.959,-4.425 c -2.2,-3.066 -5.171,-5.142 -8.326,-7.084 z"></path>
+            <path name="3" class="line fill" d="m 71.208,39.144 -2.671,4.04 c 1.096,2.931 1.196,5.941 1.079,9.026 L 73.8,49.79 c 0,-3.778 -1.178,-7.21 -2.592,-10.646 z"></path>
+            <path name="4" class="line fill" d="m 73.511,53.741 -4.524,1.691 c -0.832,3.021 -2.512,5.511 -4.408,7.938 l 4.797,0.516 c 2.221,-3.053 3.268,-6.531 4.135,-10.145 z"></path>
+            <path name="5" class="line fill" d="m 66.829,66.906 -4.647,-1.3 c -2.438,1.954 -5.257,2.977 -8.21,3.82 l 3.579,3.248 c 3.583,-1.155 6.466,-3.352 9.278,-5.768 z"></path>
+            <path name="6" class="line fill" d="m 53.724,73.619 -2.999,-3.802 c -3.117,0.141 -5.996,-0.693 -8.879,-1.756 l 0.998,4.744 c 3.572,1.176 7.191,1.106 10.88,0.814 z"></path>
+            <path name="7" class="line fill" d="m 39.194,71.305 -0.213,-4.843 c -2.592,-1.727 -4.434,-4.105 -6.144,-6.666 l -1.969,4.428 c 2.201,3.062 5.171,5.137 8.326,7.081 z"></path>
+            <path name="8" class="line fill" d="m 28.792,60.854 2.67,-4.036 c -1.095,-2.934 -1.194,-5.945 -1.079,-9.029 l -4.183,2.42 c 0,3.777 1.176,7.21 2.592,10.645 z"></path>
+            <path name="9" class="line fill" d="m 26.491,46.258 4.523,-1.688 c 0.83,-3.024 2.512,-5.515 4.409,-7.942 l -4.8,-0.516 c -2.22,3.053 -3.268,6.532 -4.132,10.146 z"></path>
+            <path name="10" class="line fill" d="m 33.17,33.092 4.648,1.302 c 2.44,-1.953 5.256,-2.977 8.213,-3.82 l -3.583,-3.25 c -3.579,1.157 -6.466,3.353 -9.278,5.768 z"></path>
+         </g>
+      </svg>
+<!--- BUSY --->
+
+
+<!--- DBUG --->
+      <div class="dbugPane">
+
+         <noscript>
+            <div name="nojsFail" class="FailNode">
+               <h1>Browser Fail</h1>
+               <div>
+                  <h2>JavaScript is disabled</h2>
+                  <ul>
+                     <li>Your web browser is currently configured to ignore JavaScript</li>
+                     <li>JavaScript is a standard scripting language and is secure by design</li>
+                     <li>It is required to render the dynamic graphical components for this application</li>
+                     <li>Kindly enable JavaScript and hit refresh, or consult your technical advisor</li>
+                  </ul>
+                  <p>
+                     This issue is client-side, which cannot be resolved server-side.<br>
+                     Once you've enabled JavaScript you will be able to use this web application.
+                  </p>
+                  <span>Apologies for any inconvenience.</span>
+               </div>
+            </div>
+         </noscript>
+
+         <div name="viewFail" class="FailNode hide">
+            <h1>Browser Fail</h1>
+            <div>
+               <h2>Substandard VIEW capabilities</h2>
+               <ul>
+                  <li>The web application you are trying to access requires a standards compliant web browser.</li>
+                  <li>The web browser you are currently using is not standards compliant, or is outdated.</li>
+               </ul>
+               <p>
+                  Kindly use a different browser, or upgrade your current web browser.<br>
+                  You can choose a modern web browser here: <a href="http://browsehappy.com/">http://browsehappy.com/</a><br>
+                  This issue is client-side, which cannot be resolved server-side.<br>
+                  Once you've upgraded, please visit here again using your improved browser.
+               </p>
+               <span>Apologies for any inconvenience.</span>
+            </div>
+         </div>
+
+         <div name="liveFail" class="FailNode hide">
+            <h1>Process Fail</h1>
+            <div>
+               <h2>Application Error</h2>
+               <ul>
+                  <li>The web application you are using produced a fatal error and has stopped working.</li>
+                  <li>The application administrator is now informed about this issue.</li>
+               </ul>
+               <p>
+                  This problem will be resolved as soon as possible.<br>
+                  Please visit here again soon.
+               </p>
+               <span>Apologies for any inconvenience.</span>
+            </div>
+         </div>
+
+         <!-- % -->
+         <div name="devlFail" class="FailNode hide">
+            <h1>Under construction</h1>
+            <div>
+               <h2><!-- % -->Invalid Server Configuration<!-- % --></h2>
+               <!-- % -->
+               <li>The expected platform is a typical "LAMP" setup with Apache config allowing "overrides"</li>
+               <li>If no "overrides", then set this host's Apache config according to the ".htaccess" file</li>
+               <li>Make sure PHP can <i>initially</i> read &amp; write anything -recursively in the "docroot"</li>
+               <li>PHP version 5.5.14 (or better) is expected, but PHP 4.4.4 (at least) is required for "graceful fail"</li>
+               <!-- % -->
+               <p>
+               <!-- % -->
+                  This framework intends to be secure; only the basic GUI is initially available to the public.<br>
+                  Files, folders -and applications can only be accessed once configured for public access.<br>
+                  <br>
+                  This error message will disappear once all the issues listed above are resolved.<br>
+                  If this error message persists, try re-installing the framework.
+               <!-- % -->
+               </p>
+               <span>Apologies for any inconvenience.</span>
+            </div>
+         </div>
+         <!-- % -->
+
+         <!--- DEVLDBUG --->
+      </div>
+<!--- DBUG --->
+   </body>
+</html>
+<script>
+   'use strict';
+
+   (function(temp,list,test,fail)
+   {
+   // shim :: getUserMedia
+   // -----------------------------------------------------------------------------------------------------
+      navigator.getUserMedia = // cond
+      (
+         navigator.getUserMedia ||
+         navigator.webkitGetUserMedia ||
+         navigator.mozGetUserMedia ||
+         navigator.msGetUserMedia
+      );
+   // -----------------------------------------------------------------------------------------------------
+
+
+
+   // shim :: AudioContext
+   // -----------------------------------------------------------------------------------------------------
+      window.AudioContext = // cond
+      (
+         window.AudioContext ||
+         window.webkitAudioContext ||
+         window.mozAudioContext
+      );
+   // -----------------------------------------------------------------------------------------------------
+
+
+
+   // evnt :: error
+   // -----------------------------------------------------------------------------------------------------
+      window.onerror = function(mesg,path,line,colm,erob)
+      {
+         var node,name,hdr1,hdr2,list,text,host,halt;
+
+         if (window.haltFail)
+         { return true; }
+
+         window.haltFail = true;
+
+         if (window.dbugHTML)
+         { document.body.innerHTML = dbugHTML; }
+
+         node = document.getElementsByName('liveFail')[0];
+
+
+         if (SITEMODE == 'DEVL')
+         {
+            if (erob && erob.constructor && (erob.constructor.name == 'String'))
+            { mesg = mesg.split('Uncaught ').join('Uncaught UsageError:'); }
+
+            mesg = mesg.split('Uncaught ').join('').split(':');
+            name = mesg.shift().trim().split('Error').join(' Fail');
+            mesg = mesg.join(':').trim();
+            halt = '<[HALT]>';
+
+            if ((name == 'Usage Fail') && (mesg.indexOf(halt) > -1))
+            {
+               mesg = mesg.split(halt).join('');
+               console.log(mesg);
+               return true;
+            }
+            else
+            {
+               if (mesg.indexOf(' is not defined') > 0)
+               {
+                  mesg = mesg.split(' is not defined');
+                  mesg = '`'+mesg[0]+'` is undefined';
+               }
+
+               if (!path || (path.length < 1))
+               {
+                  if (window.Main && Main.Path.Read && (Main.Path.Read.doneList.length > 0))
+                  {
+                     var list = Main.Path.Read.doneList;
+                     var last = list.pop();
+
+                     if (Path.Extn(last) != 'js')
+                     { last = list.pop(); }
+
+                     if (Path.Extn(last) == 'js')
+                     { path = last; }
+                  }
+               }
+
+               hdr1 = node.getElementsByTagName('h1')[0];
+               hdr2 = node.getElementsByTagName('h2')[0];
+               list = node.getElementsByTagName('ul')[0];
+               text = node.getElementsByTagName('p')[0];
+               host = document.location.protocol+'//'+document.location.hostname;
+               path = path.split(host).join('');
+
+               hdr1.innerHTML = name;
+               hdr2.innerHTML = mesg;
+               list.innerHTML = '<li>in file: '+path+'</li><li>on line: '+line+'</li>';
+               text.innerHTML = '';
+            }
+         }
+
+         node.className = 'FailNode show';
+         return true;
+      };
+   // -----------------------------------------------------------------------------------------------------
+
+
+
+   // test :: avoid errors
+   // -----------------------------------------------------------------------------------------------------
+      try
+      {
+      // cond :: JavaScript : test some standard functionality
+      // --------------------------------------------------------------------------------------------------
+         if
+         (
+            this ||                                      // strict-mode support
+            (typeof window.onerror === 'undefined') ||   // global error handling
+            (typeof arguments === 'undefined') ||        // function standard
+            (typeof parent === 'undefined') ||           // dom traversal
+            !window.atob || !window.btoa ||              // base64 support
+            !window.XMLHttpRequest ||                    // XHR support
+            !document.addEventListener ||                // event listener support
+            !Object.defineProperties ||                  // extension support
+            !window.Blob ||                              // es5 standard
+            !Object.freeze ||                            // es5 standard
+            !Function.prototype.bind ||                  // es5 standard
+            !Array.prototype.forEach ||                  // es5 standard
+            !String.prototype.trim ||                    // es5 standard
+            !window.getComputedStyle                     // live view support
+         )
+         { throw 'JavaScript'; }
+      // --------------------------------------------------------------------------------------------------
+
+
+      // cond :: CSS : test standard availability
+      // --------------------------------------------------------------------------------------------------
+         temp = document.createElement('div');
+         list = ['borderRadius','backgroundSize','boxShadow','boxSizing','textOverflow','transition'];
+         fail = 'CSS';
+
+         for (var i in list)
+         {
+            if (!list.hasOwnProperty(i))
+            { continue; }
+
+            if (!(list[i] in temp.style))
+            { throw fail; }
+         }
+
+         document.body.appendChild(temp);
+         temp.setAttribute('style','display:position:absolute; width:0%; width:50vw; opacity:0');
+         test = (getComputedStyle(temp).width.split('px')[0] *1);
+
+         if (test < 10)
+         { throw fail; }
+
+         temp.parentNode.removeChild(temp);
+         temp=null; list=null; test=null;
+      // --------------------------------------------------------------------------------------------------
+
+
+      // cond :: video
+      // --------------------------------------------------------------------------------------------------
+         temp = document.createElement('canvas');
+         temp = (temp.getContext('webgl') || temp.getContext('experimental-webgl'));
+
+         if (!temp || !window.WebGLRenderingContext || !(temp instanceof WebGLRenderingContext))
+         { throw 'graphics'; }
+
+         temp = null;
+      // --------------------------------------------------------------------------------------------------
+
+
+      // cond :: audio
+      // --------------------------------------------------------------------------------------------------
+         if (typeof window.AudioContext == 'undefined')
+         { throw 'audio'; }
+      // --------------------------------------------------------------------------------------------------
+
+
+      // cond :: dbug : input
+      // --------------------------------------------------------------------------------------------------
+         temp = document.createElement('div');
+         temp = (('draggable' in temp) || (('ondragstart' in temp) && ('ondrop' in temp)));
+
+         if (!navigator.getUserMedia || !window.File || !window.FileReader || !window.Blob || !temp)
+         { throw 'interaction'; }
+      // --------------------------------------------------------------------------------------------------
+      }
+      catch (fail)
+      {
+      // dbug :: show : throw
+      // --------------------------------------------------------------------------------------------------
+         var node = document.getElementsByName('viewFail')[0];
+         var mesg = node.getElementsByTagName('h2')[0];
+
+         node.className = 'FailNode show';
+         mesg.innerHTML = mesg.innerHTML.split('VIEW').join(fail);
+
+         window.dbugFail = mesg.innerHTML;
+      // --------------------------------------------------------------------------------------------------
+      }
+   // -----------------------------------------------------------------------------------------------------
+
+
+
+   // func :: Halt : stop execution
+   // -----------------------------------------------------------------------------------------------------
+      window.Halt = function(note)
+      {
+         throw '<[HALT]>'+(note || '~~ HALT ~~');
+      };
+   // -----------------------------------------------------------------------------------------------------
+
+
+
+   // cond :: load : abec
+   // -----------------------------------------------------------------------------------------------------
+      if (!window.dbugFail)
+      {
+         var abec = document.createElement('script');
+
+         abec.onload = function()
+         {
+            window.dbugHTML = document.getElementsByClassName('dbugPane')[0].outerHTML;
+            document.body.innerHTML = '';
+            Defined = [];
+
+            Import('/lib/vamp.js',function()
+            {
+               Import('/lib/view.js',function()
+               {
+                  INITVIEW.autoload.Each = function(path)
+                  { Import(path); };
+
+                  // Loader('body').onWait = function()
+                  // {
+                  //    if (isFunc(View.onLoad))
+                  //    { View.onLoad(); }
+                  // };
+               });
+            });
+         };
+
+         abec.src = '/lib/abec.js';
+         document.getElementsByTagName('head')[0].appendChild(abec);
+      }
+   // -----------------------------------------------------------------------------------------------------
+   }());
+</script>
+<!-- % -->
+<script>document.getElementsByName('devlFail')[0].className = 'FailNode';</script>

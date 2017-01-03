@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:cc="http://creativecommons.org/ns#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    version="1.1"
+    width="64"
+    height="64"
+    id="svg2">
+   <defs
+       id="defs4">
+      <filter
+          color-interpolation-filters="sRGB"
+          id="filter3780">
+         <feGaussianBlur
+             id="feGaussianBlur3782"
+             stdDeviation="1.83076" />
+      </filter>
+   </defs>
+   <metadata
+       id="metadata7">
+      <rdf:RDF>
+         <cc:Work
+             rdf:about="">
+            <dc:format>image/svg+xml</dc:format>
+            <dc:type
+                rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+            <dc:title></dc:title>
+         </cc:Work>
+      </rdf:RDF>
+   </metadata>
+   <g
+       id="text3760"
+       style="font-size:60.000011px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:#b4b4b4;stroke-width:2.5;stroke-miterlimit:4;stroke-opacity:1;font-family:AnyIcon;-inkscape-font-specification:AnyIcon">
+      <path
+          d="M 53.2109,10.7891 C 47.3515,4.92973 40.2812,2.00005 32,1.99999 23.7187,2.00005 16.6484,4.92973 10.7891,10.7891 4.92969,16.6485 2,23.7188 2,32 2,40.2813 4.92969,47.3516 10.7891,53.2109 16.6484,59.0703 23.7187,62 32,62 40.2812,62 47.3515,59.0703 53.2109,53.2109 59.0703,47.3516 62,40.2813 62,32 62,23.7188 59.0703,16.6485 53.2109,10.7891 M 49.2266,49.2266 C 44.4609,53.9922 38.7187,56.375 32,56.375 25.2812,56.375 19.539,53.9922 14.7734,49.2266 10.0078,44.4609 7.625,38.7188 7.625,32 7.625,25.2813 10.0078,19.5391 14.7734,14.7734 19.539,10.0079 25.2812,7.62504 32,7.62499 c 6.7187,5e-5 12.4609,2.38291 17.2266,7.14841 4.7655,4.7657 7.1484,10.5079 7.1484,17.2266 0,6.7188 -2.3829,12.4609 -7.1484,17.2266 M 28.25,17 l 7.5,0 0,7.5 -7.5,0 0,-7.5 m 11.25,30 -15,0 0,-3.75 3.75,0 0,-11.25 -3.75,0 0,-3.75 11.25,0 0,15 3.75,0 0,3.75"
+          id="path3787" />
+   </g>
+   <text
+       x="2"
+       y="58.25"
+       id="text3756"
+       xml:space="preserve"
+       style="font-size:60.000011px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:AnyIcon;-inkscape-font-specification:AnyIcon"><tspan
+          x="2"
+          y="58.25"
+          id="tspan3758"></tspan></text>
+</svg>
