@@ -21,7 +21,7 @@
    userView:
    {
       template: `/cfg/anon.vmp`
-      autoload: [`/fnt/icon.fnt`,`/libs/view.css`,`/libs/init.js`]
+      autoload: [`/fnt/icon.fnt`,`/fnt/pane.woff`, `/cfg/skin.css`,`/libs/init.js`]
    }
 
 

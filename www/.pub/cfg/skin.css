@@ -1,0 +1,148 @@
+
+/* lines
+/* ----------------------------------------------------------------------------------------------------- */
+   .line-vert
+   {
+      position:relative;
+      width:0rem;
+      border-left:0.1rem solid hsla(0,0%,100%,0.1);
+      border-right:0.1rem solid hsla(0,0%,0%,0.1);
+   }
+/* ----------------------------------------------------------------------------------------------------- */
+
+
+/* buttons
+/* ----------------------------------------------------------------------------------------------------- */
+   .butn
+   {
+      display:inline-block;
+      overflow:hidden;
+      font-family:'pane';
+      font-size:1.1rem;
+      line-height:1rem;
+      border-radius:0.3rem;
+      box-shadow:0rem 0rem 0.2rem hsla(0,0%,0%,0.25);
+      margin:0.3rem;
+      cursor:pointer;
+   }
+
+   /* -------------------------------------------- */
+
+   .butn-auto
+   {
+      color:#333;
+      background-image:linear-gradient(0deg, hsla(0,0%,75%,1), hsla(0,0%,85%,1));
+      border:0.1rem solid hsla(0,0%,60%,1);
+      border-top:0.1rem solid hsla(0,0%,70%,1);
+      border-bottom:0.1rem solid hsla(0,0%,60%,1);
+      text-shadow:0px 0px 1px hsla(0,0%,100%,1);
+   }
+
+   .butn-auto:hover
+   { background-image:linear-gradient(0deg, hsla(0,0%,80%,1), hsla(0,0%,90%,1)); }
+
+   /* -------------------------------------------- */
+
+   .butn-info
+   {
+      color:#FFF;
+      background-image:linear-gradient(0deg, hsla(205,70%,45%,1), hsla(205,70%,55%,1));
+      border:0.1rem solid hsla(205,70%,40%,1);
+      border-top:0.1rem solid hsla(205,70%,50%,1);
+      border-bottom:0.1rem solid hsla(205,70%,35%,1);
+      text-shadow:0px 0px 1px hsla(0,0%,0%,1);
+   }
+
+   .butn-info:hover
+   { background-image:linear-gradient(0deg, hsla(205,70%,50%,1), hsla(205,70%,60%,1)); }
+
+   /* -------------------------------------------- */
+
+   .butn-good
+   {
+      color:#FFF;
+      background-image:linear-gradient(0deg, hsla(120,60%,35%,1), hsla(120,60%,45%,1));
+      border:0.1rem solid hsla(120,60%,35%,1);
+      border-top:0.1rem solid hsla(120,60%,40%,1);
+      border-bottom:0.1rem solid hsla(120,60%,30%,1);
+      text-shadow:0px 0px 1px hsla(0,0%,0%,1);
+   }
+
+   .butn-good:hover
+   { background-image:linear-gradient(0deg, hsla(120,60%,40%,1), hsla(120,60%,50%,1)); }
+
+   /* -------------------------------------------- */
+
+   .butn-warn
+   {
+      color:#FFF;
+      background-image:linear-gradient(0deg, hsla(35,99%,38%,1), hsla(35,99%,48%,1));
+      border:0.1rem solid hsla(35,99%,40%,1);
+      border-top:0.1rem solid hsla(35,99%,40%,1);
+      border-bottom:0.1rem solid hsla(35,99%,32%,1);
+      text-shadow:0px 0px 1px hsla(0,0%,0%,1);
+   }
+
+   .butn-warn:hover
+   { background-image:linear-gradient(0deg, hsla(35,90%,45%,1), hsla(35,90%,55%,1)); }
+
+   /* -------------------------------------------- */
+
+   .butn-mind
+   {
+      color:#FFF;
+      background-image:linear-gradient(0deg, hsla(225,60%,40%,1), hsla(225,60%,50%,1));
+      border:0.1rem solid hsla(235,60%,45%,1);
+      border-top:0.1rem solid hsla(235,60%,40%,1);
+      border-bottom:0.1rem solid hsla(235,60%,35%,1);
+      text-shadow:0px 0px 1px hsla(0,0%,0%,1);
+   }
+
+   .butn-mind:hover
+   { background-image:linear-gradient(0deg, hsla(225,60%,45%,1), hsla(225,60%,55%,1)); }
+
+   /* -------------------------------------------- */
+
+   .butn-need
+   {
+      color:#FFF;
+      background-image:linear-gradient(0deg, hsla(320,50%,40%,1), hsla(320,50%,50%,1));
+      border:0.1rem solid hsla(320,50%,45%,1);
+      border-top:0.1rem solid hsla(320,50%,40%,1);
+      border-bottom:0.1rem solid hsla(320,50%,35%,1);
+      text-shadow:0px 0px 1px hsla(0,0%,0%,1);
+   }
+
+   .butn-need:hover
+   { background-image:linear-gradient(0deg, hsla(320,50%,45%,1), hsla(320,50%,55%,1)); }
+
+   /* -------------------------------------------- */
+
+   .butn-fail
+   {
+      color:#FFF;
+      background-image:linear-gradient(0deg, hsla(0,65%,40%,1), hsla(0,65%,50%,1));
+      border:0.1rem solid hsla(0,65%,45%,1);
+      border-top:0.1rem solid hsla(0,65%,40%,1);
+      border-bottom:0.1rem solid hsla(0,65%,35%,1);
+      text-shadow:0px 0px 1px hsla(0,0%,0%,1);
+   }
+
+   .butn-fail:hover
+   { background-image:linear-gradient(0deg, hsla(0,65%,45%,1), hsla(0,65%,55%,1)); }
+/* ----------------------------------------------------------------------------------------------------- */
+
+
+   .show-view-pane
+   {
+      width:100%;
+      padding:1rem;
+      padding-bottom:0.8rem;
+      text-align:center;
+      text-shadow:0px 0px 1px hsla(0,0%,100%,0.5);
+      color:#222;
+      background:hsla(0,0%,75%,0.4);
+      border-top:1px solid hsla(0,0%,100%,0.2);
+      border-bottom:1px solid hsla(0,0%,100%,0.2);
+      margin-bottom:-1px;
+   }

@@ -87,6 +87,27 @@ Edit the contents of this file carefully & remove this comment block.
             color:#EEE;
             text-decoration:underline;
          }
+
+         table
+         {
+            border-collapse:collapse;
+         }
+
+         tr,td
+         {
+            padding:0px;
+            margin:0px;
+            text-align:center;
+            vertical-align:middle;
+         }
+
+         iframe
+         {
+            width:100%;
+            height:100%;
+            overflow:auto;
+            border:none;
+         }
       /* ----------------------------------------------------------------------------------------------- */
 
 
@@ -261,6 +282,11 @@ Edit the contents of this file carefully & remove this comment block.
 
       /* clan :: (grid) : alignment
       /* ----------------------------------------------------------------------------------------------- */
+         .knob
+         {
+            cursor:pointer;
+         }
+
          .text-left
          { text-align:left; }
 
@@ -269,6 +295,9 @@ Edit the contents of this file carefully & remove this comment block.
 
          .text-rigt
          { text-align:right; }
+
+         .text-botm
+         { vertical-align:bottom !important; }
 
          .horz-midl
          {
@@ -292,9 +321,24 @@ Edit the contents of this file carefully & remove this comment block.
       /* ----------------------------------------------------------------------------------------------- */
          .span-full
          {
-            position:absolute;
             width:100%;
             height:100%;
+         }
+
+         .flow-clip
+         {
+            overflow:hidden;
+         }
+
+         .posi-none
+         {
+            position:absolute;
+         }
+
+         .pull-down
+         {
+            position:absolute !important;
+            bottom:0px;
          }
       /* ----------------------------------------------------------------------------------------------- */
       </style>
@@ -795,7 +839,7 @@ Edit the contents of this file carefully & remove this comment block.
 
          abec.onload = function()
          {
-            window.dbugHTML = document.getElementsByClassName('dbugPane')[0].outerHTML;
+            window.dbugHTML = (''+document.getElementsByClassName('dbugPane')[0].outerHTML);
             document.body.innerHTML = '';
             Defined = [];
 

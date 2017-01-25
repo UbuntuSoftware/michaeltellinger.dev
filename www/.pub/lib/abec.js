@@ -212,6 +212,8 @@
       CAML:'⋖CAML⋗',
 
       NEXT:'⋖NEXT⋗',
+      SKIP:'⋖SKIP⋗',
+      STOP:'⋖STOP⋗',
       DONE:'⋖DONE⋗',
 
       KEYS:'⋖KEYS⋗',
@@ -1001,7 +1003,7 @@
 
          if (!find){ return null; }
 
-         return [self.substr(0,find[0]), find[1], self.substr(find[0]+1)];
+         return [self.substr(0,find[0]), self.substr(find[0])];
       },
    // -----------------------------------------------------------------------------------------------------
 
@@ -1347,6 +1349,10 @@
       textOf:function(defn)
       {
          var type = typeOf(defn);
+         var resl = '';
+
+         if ((defn === VOID) || (defn === ''))
+         { return ''; }
 
          if ([VOID,MAIN,PLAN].Has(type))
          { defn=type; type=TEXT; }
@@ -1358,7 +1364,18 @@
          { return ((defn === false) ? 'false' : ((defn === null) ? 'null' : 'true')); }
 
          if ([FUNC,TIME].Has(type))
-         { defn.toStrng(); }
+         { return defn.toString(); }
+
+         if (kindOf(defn) == NODELIST)
+         {
+            defn.Each = function(node){ resl += node.outerHTML; };
+            return resl;
+         }
+
+         if (kindOf(defn) == HTMLNODE)
+         {
+            return defn.outerHTML;
+         }
 
          return JSON.stringify(defn);
       },
@@ -1502,6 +1519,9 @@
          {
             if (defn.Type != FUNC)
             { return defn.Join(function(){}); }
+
+            if (!isList(defn.Data))
+            { defn.Data = [defn.Data]; }
 
             resl = Function.apply(null,(defn.Args.Join(defn.Data)));
 
@@ -1954,6 +1974,9 @@
          var kind = kindOf(self);
          var type,temp;
 
+         if (kind == NULLVOID)
+         { return self; }
+
          if (kind == METALIST)
          {
             self[self.length] = defn;
@@ -1970,6 +1993,7 @@
          {
             if (isList(defn))
             {
+               defn = listOf(defn);
                defn.Each = function(item){ self.Insert(item); };
                return self;
             }
@@ -1978,19 +2002,28 @@
             { defn = Create(defn); }
 
             if (isHtmlNode(defn))
-            { self.appendChild(defn); }
+            {
+// dump(defn);
+               self.appendChild(defn);
+            }
             else
             {
                if (isText(defn) && (defn.trim().trimOf(1) == '<>'))
                {
                   defn = defn.trim();
 
+
                   if (defn.substr(1,3) != 'svg')
                   { defn = defn.replace(/\>\s+\</g,'><'); }
 
                   temp = Create('div');
                   temp.innerHTML = defn;
-                  self.Insert(temp.childNodes);
+                  temp = listOf(temp.childNodes);
+
+                  temp.Each = function(node)
+                  {
+                     self.appendChild(node);
+                  };
                }
                else
                { self.appendChild(document.createTextNode(textOf(defn))); }
@@ -2199,7 +2232,7 @@
 
 
          base = Path.Base(path);
-         home = (isHtmlNode(this) ? this : (extn.Has('css','js','fnt') ? document.head : null));
+         home = (isHtmlNode(this) ? this : (extn.Has('css','js','fnt','woff','ttf','otf') ? document.head : null));
          home = (isHtmlNode(home) ? home : (isNodeList(this) ? this[0] : null));
          show = ((home && (tagName(home) != 'head')) ? home : document.body);
          busy = Loader(show);
@@ -2220,15 +2253,18 @@
 
             if (tags[extn] == 'style')
             {
+               var part,refs,type;
+
                if (mime.Has('font'))
                {
+                  type = mime.split('/')[1];
+                  type = (type.Has('-') ? type.split('-')[1] : type.split('+')[0]);
+
                   data = '@font-face{font-family:"'+base+'"; src:url("'+data+'") ';
-                  data+= 'font-weight:normal; font-style:normal;}';
+                  data+= 'format("'+type+'"); font-weight:normal; font-style:normal;}';
                }
                else if (extn == 'fnt')
                {
-                  var part,refs,type;
-
                   part = data.split("\n");
                   refs = LZS.decB64(part[0]).split(' ');
                   data = '';
@@ -2366,6 +2402,7 @@
          var sock,extn,mime;
 
          path = Path.Norm(path);
+         extn = Path.Extn(path);
 
          if (isFunc(busy))
          {
@@ -2408,7 +2445,7 @@
 
             if (Path.Read.mimeCast[extn])
             {
-               Main[(Path.Read.mimeCast[extn])].decode(sock.response,{PATH:this.path},done);
+               Main[(Path.Read.mimeCast[extn])].decode(sock.response,{FILEPATH:this.path},done);
                return;
             }
 

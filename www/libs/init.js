@@ -1,6 +1,7 @@
 
    Import(INITVIEW.landPage,function(data)
    {
-      Dump(data);
-      // Select('body').Insert(data);
+// dump(data);
+      // document.body.innerHTML = '';
+      Select('body').Insert(data);
    });
